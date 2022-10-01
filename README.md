@@ -16,10 +16,13 @@ For more specification on how to use python for spark: <a href=https://spark.apa
       <li>Pip: pip install pyspark</li>
       <li>Conda: conda install -c conda-forge pyspark</li>
     </ul>
-   </li>
+  </li>
    <li>Go to the src directory.</li>
    <li>Run: spark-submit BloomFIltersApp.py [file] [false_positive_rate] [partitions] <br>
    Where file is is the file to be processed under the directory Data/Input/.<br>
    False positive rate is the desired false positive rate for each of the 10 bloom filter.<br>
    Partitions is the number of partitions in wich the applicatin divide the RDD.
+   </li>
+   <li>Results: you can find the results in the directory Data/Output/.</li>
+
 </h4>
