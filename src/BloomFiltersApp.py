@@ -42,18 +42,17 @@ file_path = f'./../Data/Input/{file_name}'
 
 spark = SparkSession.builder.getOrCreate()
 
-for i in range(10):
-    df = spark.read.csv(file_path, sep=r'\t',header=True).select('tconst', 'averageRating') # read the .tsv file and return a dataframe
-    rdd = df.rdd
+df = spark.read.csv(file_path, sep=r'\t',header=True).select('tconst', 'averageRating') # read the .tsv file and return a dataframe
+rdd = df.rdd
 
-    bloom_parameters = bfp.getBloomFiltersParameters(rdd, false_positive_rate, i)
-    broadcast_bloom_parameters = sc.broadcast(bloom_parameters)
+bloom_parameters = bfp.getBloomFiltersParameters(rdd, false_positive_rate)
+broadcast_bloom_parameters = sc.broadcast(bloom_parameters)
 
-    bloom_filters = bfc.getBloomFilters(rdd, broadcast_bloom_parameters, i)
-    broadcast_bloom_filters = sc.broadcast(bloom_filters)
+bloom_filters = bfc.getBloomFilters(rdd, broadcast_bloom_parameters)
+broadcast_bloom_filters = sc.broadcast(bloom_filters)
 
-    false_positive_rates = fpr.getFalsePositiveRates(rdd, broadcast_bloom_filters, broadcast_bloom_parameters, i)
-    print(false_positive_rates)
+false_positive_rates = fpr.getFalsePositiveRates(rdd, broadcast_bloom_filters, broadcast_bloom_parameters)
+print(false_positive_rates)
 
 print((time.time()-start_time)*1000)
     

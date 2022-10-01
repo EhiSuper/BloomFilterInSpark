@@ -1,6 +1,6 @@
 from math import log
 
-def getBloomFiltersParameters(rdd, false_positive_ratio, i):
+def getBloomFiltersParameters(rdd, false_positive_ratio):
     """
     Given an rdd of films and ratings return a dictionary of parameters n, m ,k for every rating.
     Input: rdd of filmId, rating.
@@ -10,7 +10,7 @@ def getBloomFiltersParameters(rdd, false_positive_ratio, i):
     rdd = rdd.groupByKey()
     rdd = rdd.map(lambda x: getParameters(x, false_positive_ratio)) # map parameters to every rating
     rdd = rdd.sortByKey() # sort ratings
-    rdd.saveAsTextFile(f"./../Data/Output/Parameters{i}") 
+    rdd.saveAsTextFile(f"./../Data/Output/Parameters") 
     bloom_parameters = rdd.collect()
     bloom_parameters = {list[0]:list[1] for list in bloom_parameters} # transform the list of lists in a dictionary
     return bloom_parameters
