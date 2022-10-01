@@ -8,3 +8,18 @@ The Application is completely developed using Spark and it is written in Python.
 For more specification on <a href=https://spark.apache.org/docs/latest/>Apache Spark<a><br>
 For more specification on how to use python for spark: <a href=https://spark.apache.org/docs/latest/api/python/>Pyspark</a><br>
 </h4>
+<h2>Utilization</h2>
+<h4>
+<ol>
+  <li>Install Pyspark with bot pip or anaconda (you can also use a preinstalled spark installation with a yarn hadoop cluster):
+    <ul>
+      <li>Pip: pip install pyspark</li>
+      <li>Conda: conda install -c conda-forge pyspark</li>
+    </ul>
+   </li>
+   <li>Go to the src directory.</li>
+   <li>Run: spark-submit BloomFIltersApp.py [file] [false_positive_rate] [partitions] <br>
+   Where file is is the file to be processed under the directory Data/Input/.<br>
+   False positive rate is the desired false positive rate for each of the 10 bloom filter.<br>
+   Partitions is the number of partitions in wich the applicatin divide the RDD.
+</h4>
