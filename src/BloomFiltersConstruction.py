@@ -1,16 +1,16 @@
 import mmh3
 
-def getBloomFilters(rdd, bloom_parameters):
+def getBloomFilters(rdd, bloom_parameters, i):
     """
     Given an rdd in the form (film, rating) return a dictionary with one bloom filter for every rating.
     Input: rdd in the form (film, rating).
     Output: {rating: bloom_filter}
     """
     rdd = rdd.map(lambda x: [round(float(x[1])), x[0]]) # map the rdd in the form (rating, film)
-    indexes = rdd.map(lambda x: getIndexes(x, bloom_parameters)) # map the rdd in the form (rating, list[indexes]) 
+    indexes = rdd.map(lambda x: getIndexes(x, bloom_parameters.value)) # map the rdd in the form (rating, list[indexes]) 
     joined_indexes = indexes.reduceByKey(lambda x, y: concatenateIndexes(x, y)) # join the list related to every rating
-    bloom_filters = joined_indexes.map(lambda x: createBloomFiltersFromIndexes(x, bloom_parameters)).sortByKey() # for every rating calculate the relative bloom filter based on the indexes
-    bloom_filters.saveAsTextFile("Data/BloomFilters")
+    bloom_filters = joined_indexes.map(lambda x: createBloomFiltersFromIndexes(x, bloom_parameters.value)).sortByKey() # for every rating calculate the relative bloom filter based on the indexes
+    bloom_filters.saveAsTextFile(f"./../Data/Output/BloomFilters{i}")
     bloom_filters = bloom_filters.collect()
     bloom_filters = {list[0]:list[1] for list in bloom_filters} # create the dictionary from the list of lists
     return bloom_filters
