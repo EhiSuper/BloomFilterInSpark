@@ -10,7 +10,7 @@ def getBloomFiltersParameters(rdd, false_positive_ratio):
     rdd = rdd.groupByKey()
     rdd = rdd.map(lambda x: getParameters(x, false_positive_ratio)) # map parameters to every rating
     rdd = rdd.sortByKey() # sort ratings
-    rdd.saveAsTextFile(f"./../Data/Output/Parameters") 
+    rdd.saveAsTextFile(f"./Data/Output/Parameters") 
     bloom_parameters = rdd.collect()
     bloom_parameters = {list[0]:list[1] for list in bloom_parameters} # transform the list of lists in a dictionary
     return bloom_parameters

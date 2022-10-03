@@ -13,7 +13,7 @@ def getFalsePositiveRates(rdd, bloom_filters, bloom_parameters):
     false_positive_rates = false_positive_rates.reduceByKey(lambda a,b : a+b) #reduce by key the number of false positives for every rating
     false_positive_rates = false_positive_rates.map(lambda x: getFalsePositiveRate(x, bloom_parameters.value)).sortByKey() # get the false positive rate for every rating
 
-    false_positive_rates.saveAsTextFile(f'./../Data/Output/FalsePositiveRates')
+    false_positive_rates.saveAsTextFile(f'./Data/Output/FalsePositiveRates')
     false_positive_rates = false_positive_rates.collect()
     false_positive_rates = {list[0]: list[1] for list in false_positive_rates}
     return false_positive_rates

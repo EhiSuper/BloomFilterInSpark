@@ -38,7 +38,7 @@ except:
 conf = SparkConf().setAppName('BloomFiltersConstruction').setMaster(f'local[{partitions}]')
 sc = SparkContext(conf=conf)
 
-file_path = f'./../Data/Input/{file_name}'
+file_path = f'./Data/Input/{file_name}'
 
 spark = SparkSession.builder.getOrCreate()
 
