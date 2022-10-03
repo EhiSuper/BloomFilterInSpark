@@ -7,7 +7,7 @@ import time
 import sys
 
 if len(sys.argv) != 4:
-        print("Usage: driver <file> <false_positive rate> <partitions>",
+        print("Usage: driver <file> <false_positive rate> <partitions> or <yarn>",
               file=sys.stderr)
         sys.exit(-1)
 
@@ -28,14 +28,8 @@ try:
 except:
     print("Sorry the desired false positive rate is not a float. Plase try again.")
     sys.exit(-1)
-partitions = sys.argv[3]
-try:
-    partitions = int(partitions)
-except:
-    print("Sorry the number of partitions is not an int. Please try again.")
-    sys.exit(-1)
 
-conf = SparkConf().setAppName('BloomFiltersConstruction').setMaster(f'local[{partitions}]')
+conf = SparkConf().setAppName('BloomFiltersConstruction')
 sc = SparkContext(conf=conf)
 
 file_path = f'./Data/Input/{file_name}'
