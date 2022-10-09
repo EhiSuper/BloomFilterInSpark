@@ -8,7 +8,8 @@ def get_bloom_filters_parameters(rdd, false_positive_ratio):
     Output: Dictionary of {rating: [n, m, k]} sorted for rating.
     """
     rdd = rdd.map(lambda x: [round(float(x[1])), x[0]])  # map the rdd in the form (rating, film)
-    rdd = rdd.groupByKey()
+    rdd = rdd.map(lambda x: (x[0], 1))
+    rdd = rdd.reduceByKey(lambda x, y: x+y)
     rdd = rdd.map(lambda x: get_parameters(x, false_positive_ratio))  # map parameters to every rating
     rdd = rdd.sortByKey()  # sort ratings
     rdd.saveAsTextFile(f"./Data/Output/Parameters")
@@ -18,13 +19,14 @@ def get_bloom_filters_parameters(rdd, false_positive_ratio):
     return bloom_parameters
 
 
-def get_parameters(rating, false_positive_ratio):
+def get_parameters(x, false_positive_ratio):
     """
     Return parameters n,m and k for the Bloom filter construction.
     Input: (rating, list[filmId])
     Output: (rating, [n, m, k])
     """
-    n = len(rating[1])
+    n = x[1]
     m = round(-((n * log(false_positive_ratio)) / (log(2)) ** 2))
     k = round((m / n) * log(2))
-    return rating[0], [n, m, k]
+    return x[0], [n, m, k]
+
