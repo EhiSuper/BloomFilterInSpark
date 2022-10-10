@@ -34,12 +34,12 @@ def get_false_positives(row, bloom_parameters, bloom_filters):
     Input: (rating, film).
     Output: list[(rating, 1)]
     """
-    original_rating = row[0]
+    true_rating = row[0]
     film = row[1]
     ratings = bloom_filters.keys()
     false_positive_counter = []
     for rating in ratings:
-        if original_rating != rating:
+        if rating != true_rating:
             counter = 0
             m = bloom_parameters[rating][1]
             k = bloom_parameters[rating][2]
