@@ -32,7 +32,7 @@ except ValueError:
 conf = SparkConf().setAppName('BloomFiltersConstruction')
 sc = SparkContext(conf=conf)
 
-file_path = f'./../Data/Input/{file_name}'
+file_path = f'./Data/Input/{file_name}'
 
 spark = SparkSession.builder.getOrCreate()
 # read the csv file and return a dataframe
