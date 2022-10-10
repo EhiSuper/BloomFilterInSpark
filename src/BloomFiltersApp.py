@@ -35,10 +35,9 @@ sc = SparkContext(conf=conf)
 file_path = f'./../Data/Input/{file_name}'
 
 spark = SparkSession.builder.getOrCreate()
-
-df = spark.read.csv(file_path, sep=r'\t', header=True).select("tconst",
-                                                              'averageRating')  # read the .tsv file and return a
-# dataframe
+# read the csv file and return a dataframe
+df = spark.read.csv(file_path, sep=r'\t', header=True).select("tconst", 'averageRating')
+# get the rdd from the dataframe
 rdd = df.rdd
 
 bloom_parameters = Parameters.get_bloom_filters_parameters(rdd, false_positive_rate)
